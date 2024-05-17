@@ -18,7 +18,9 @@ Observability is an important aspect of security. Security services and solution
 1. Download the Cloudformation template into the current working directory
 2. Copy and paste the following command into your terminal - be sure to change the parameters to your actual values.
 
-   ```aws cloudformation create-stack --stack-name *some-stack* --template-body file://query-aws-network-firewall-logs.yml --parameters ParameterKey=AthenaNamedQueryName,ParameterValue=*some-query* ParameterKey=LogBucketName,ParameterValue=*some-bucket* ParameterKey=TableName,ParameterValue=*some-table*```
+   ```bash
+   aws cloudformation create-stack --stack-name *some-stack* --template-body file://query-aws-network-firewall-logs.yml --parameters ParameterKey=AthenaNamedQueryName,ParameterValue=*some-query* ParameterKey=LogBucketName,ParameterValue=*some-bucket* ParameterKey=TableName,ParameterValue=*some-table*
+   ```
 
 3. The command should return a *stack id* which signifies a successful execution.
 
@@ -35,7 +37,9 @@ Observability is an important aspect of security. Security services and solution
 
 1. In your shell terminal, run the following command. 
   
-   ```aws cloudformation delete-stack --stack-name *some-stack*```
+   ```bash
+   aws cloudformation delete-stack --stack-name *some-stack*
+   ```
 
 ## Security
 
