@@ -4,7 +4,7 @@ Observability is an important aspect of security. Security services and solution
 
 ## Pre-requisite
 
-* Pre-existing AWS Network Firewall logs in an S3 Bucket
+* Pre-existing AWS Network Firewall configured to send logs to an S3 Bucket destination
 * IAM Permissions to deploy Cloudformation resources
 
 ## Tech Stack
@@ -16,9 +16,9 @@ Observability is an important aspect of security. Security services and solution
 ## Deployment Steps
 
 1. Download the Cloudformation template into the current working directory
-2. Copy and paste the following command into your terminal - be sure to change the parameter in *italics* to your actual values
+2. Copy and paste the following command into your terminal - be sure to change the parameters to your actual values.
 
-   ```aws cloudformation create-stack --stack-name *some-stack* --template-body file://../anf_logs_athena_query.yml --parameters ParameterKey=AthenaNamedQueryName,ParameterValue=*some-query* ParameterKey=LogBucketName,ParameterValue=*some-bucket* ParameterKey=TableName,ParameterValue=*some-table*```
+   ```aws cloudformation create-stack --stack-name *some-stack* --template-body file://query-aws-network-firewall-logs.yml --parameters ParameterKey=AthenaNamedQueryName,ParameterValue=*some-query* ParameterKey=LogBucketName,ParameterValue=*some-bucket* ParameterKey=TableName,ParameterValue=*some-table*```
 
 3. The command should return a *stack id* which signifies a successful execution.
 
