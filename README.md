@@ -1,10 +1,10 @@
 # Query AWS Network Firewall Logs in a few clicks
 
-Observability is an important aspect of security. Security services and solutions generate logs and it is imperative to have a mechanism to query the logs. This simple Cloudformation template deploys a mechanism to query AWS Network Firewall logs in a few clicks. This can have a big impact in the mean-time-to-respond to a security event.
+Observability is an important aspect of security. Security services and solutions generate logs and it is imperative to have a mechanism to query the logs. This simple Cloudformation template deploys a mechanism to query AWS Network Firewall logs in a few clicks. This can improve the MTTR (mean time to respond) to a security event.
 
 ## Pre-requisite
 
-* Pre-existing AWS Network Firewall configured to send logs to an S3 Bucket destination
+* Preconfigured AWS Network Firewall with S3 Bucket log destination.
 * IAM Permissions to deploy Cloudformation resources
 
 ## Tech Stack
@@ -12,6 +12,7 @@ Observability is an important aspect of security. Security services and solution
 * AWS CLI
 * CloudFormation stack
 * Amazon Athena Named Query
+* AWS Glue Data Catalog table
 
 ## Deployment Steps
 
@@ -24,13 +25,13 @@ Observability is an important aspect of security. Security services and solution
 
 3. The command should return a *stack id* which signifies a successful execution.
 
-## Run the Query
+## How to run the query in Amazon Athena
 
-1. From the AWS management console, navigate to Amazon Athena
-2. In the Athena console, select *Saved Queries* and select the query you deployed in the previous step.
-3. Click *Run*
-4. In the left pane of the page, you should see a new AwsDataCatalog table with the name you provided show up.
-5. Click on the ellipsis next to the table name and select *preview table*
+1. From the AWS management console, navigate to **Amazon Athena**
+2. In the Athena console, select **Saved Queries** and select the query you deployed in the previous step.
+3. Click **Run**
+4. In the left pane of the page, you should see a new *AwsDataCatalog* table with the name you provided show up.
+5. Click on the ellipsis next to the table name and select **preview table**
 6. That's it, you are ready to query the network logs!
 
 ## Clean up
