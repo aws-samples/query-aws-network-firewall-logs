@@ -36,11 +36,13 @@ Observability is an important aspect of security. Security services and solution
 
 ## Clean up
 
-1. In your shell terminal, run the following command. 
-  
+1. In your shell terminal, run the following command.
+
    ```bash
    aws cloudformation delete-stack --stack-name *some-stack*
    ```
+
+**IMPORTANT NOTE** - the DataCatalog table created needs to be deleted manually/separately!
 
 ## Security
 
