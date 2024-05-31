@@ -1,0 +1,68 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: This template deploys resources required to query Amazon Network Firewall logs
+              in a predefined log destination S3 bucket
+Parameters:
+  LogBucketName:
+    Type: String
+    Description: The name of the existing ANF Log destination S3 Bucket
+    AllowedPattern: (?!(^xn--|.+-s3alias$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$
+    ConstraintDescription: > 
+                           Bucket names can consist only of lowercase letters, 
+                           numbers, dots (.), and hyphens (-).
+  AthenaNamedQueryName:
+    Type: String
+    Description: Please provide a name for the Saved Query
+    AllowedPattern: "^[a-zA-Z0-9_]*$"
+    ConstraintDescription: Alphanumeric names only.
+  TableName:
+    Type: String
+    Description: Please provide a name for the AwsDataCatalog Table.
+    AllowedPattern: "^[a-zA-Z0-9_]*$"
+    ConstraintDescription: Alphanumeric names only.
+
+Resources:
+  AthenaNamedQuery:
+    Type: AWS::Athena::NamedQuery
+    Properties:
+      Database: default
+      Description: This query creates an Athena table for AWS firewall.
+      Name: !Ref AthenaNamedQueryName
+      QueryString: !Sub >
+                    CREATE EXTERNAL TABLE ${TableName}(
+                      firewall_name string,
+                      availability_zone string,
+                      event_timestamp bigint,
+                      event struct<
+                        timestamp:string,
+                        flow_id:bigint,
+                        event_type:string,
+                        src_ip:string,
+                        src_port:int,
+                        dest_ip:string,
+                        dest_port:int,
+                        proto:string,
+                        app_proto:string,
+                        netflow:struct<
+                          pkts:int,
+                          bytes:bigint,
+                          start:string,
+                          `end`:string,
+                          age:int,
+                          min_ttl:int,
+                          max_ttl:int
+                        >
+                      >
+                    )
+                    ROW FORMAT SERDE
+                      'org.openx.data.jsonserde.JsonSerDe'
+                    STORED AS INPUTFORMAT
+                      'org.apache.hadoop.mapred.TextInputFormat'
+                    OUTPUTFORMAT
+                      'org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat'
+                    LOCATION
+                      's3://${LogBucketName}/AWSLogs/'
+
+Outputs:
+  AthenaNamedQueryID:
+    Description: The ID of the Athena named query created
+    Value: !GetAtt AthenaNamedQuery.NamedQueryId
